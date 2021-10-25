@@ -52,7 +52,6 @@ class MainActivity : AppCompatActivity() {
         btRead = findViewById(R.id.btRead)
         btRead.setOnClickListener {
             CoroutineScope(IO).launch {
-                people = personDao.getPeople()
                 val data = async {
                     personDao.getPeople()
                 }.await()
