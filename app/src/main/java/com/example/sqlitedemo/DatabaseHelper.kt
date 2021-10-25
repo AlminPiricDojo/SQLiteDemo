@@ -6,7 +6,7 @@ import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
-class DatabaseHelper(context: Context): SQLiteOpenHelper(context,"details.db", null, 2) {
+class DatabaseHelper(context: Context): SQLiteOpenHelper(context,"details.db", null, 1) {
     private val sqLiteDatabase: SQLiteDatabase = writableDatabase
 
     override fun onCreate(db: SQLiteDatabase?) {
@@ -22,6 +22,7 @@ class DatabaseHelper(context: Context): SQLiteOpenHelper(context,"details.db", n
 
     fun saveData(name: String, location: String){
         val contentValues = ContentValues()
+        // There is no need to pass in the pk because it is automatically generated
         contentValues.put("Name", name)
         contentValues.put("Location", location)
         sqLiteDatabase.insert("students", null, contentValues)
@@ -44,5 +45,16 @@ class DatabaseHelper(context: Context): SQLiteOpenHelper(context,"details.db", n
             }
         }
         return people
+    }
+
+    fun updateData(personPk: Int, name: String, location: String){
+        val contentValues = ContentValues()
+        contentValues.put("Name", name)
+        contentValues.put("Location", location)
+        sqLiteDatabase.update("students", contentValues, "pk = $personPk", null)
+    }
+
+    fun deleteData(person: Person){
+        sqLiteDatabase.delete("students", "pk = ${person.pk}", null)
     }
 }

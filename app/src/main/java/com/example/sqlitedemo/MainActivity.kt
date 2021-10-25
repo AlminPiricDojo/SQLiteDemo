@@ -13,11 +13,15 @@ class MainActivity : AppCompatActivity() {
     private lateinit var etLocation: EditText
     private lateinit var btSave: Button
     private lateinit var btRead: Button
+    private lateinit var btUpdate: Button
+    private lateinit var btDelete: Button
 
     private lateinit var rvMain: RecyclerView
     private lateinit var rvAdapter: RVAdapter
 
     private lateinit var people: ArrayList<Person>
+
+    var selectedPerson: Person? = null
 
     private val databaseHelper by lazy { DatabaseHelper(applicationContext) }
 
@@ -36,11 +40,26 @@ class MainActivity : AppCompatActivity() {
             databaseHelper.saveData(name, location)
             Toast.makeText(this, "Added successfully", Toast.LENGTH_LONG).show()
         }
-
         btRead = findViewById(R.id.btRead)
         btRead.setOnClickListener {
             people = databaseHelper.readData()
             rvAdapter.update(people)
+        }
+        btUpdate = findViewById(R.id.btUpdate)
+        btUpdate.setOnClickListener {
+            if(selectedPerson != null){
+                val name = etName.text.toString()
+                val location = etLocation.text.toString()
+                databaseHelper.updateData(selectedPerson!!.pk, name, location)
+                Toast.makeText(this, "Updated successfully", Toast.LENGTH_LONG).show()
+            }
+        }
+        btDelete = findViewById(R.id.btDelete)
+        btDelete.setOnClickListener {
+            if(selectedPerson != null){
+                databaseHelper.deleteData(selectedPerson!!)
+                Toast.makeText(this, "Deleted", Toast.LENGTH_LONG).show()
+            }
         }
 
         rvMain = findViewById(R.id.rvMain)

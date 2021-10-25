@@ -2,6 +2,7 @@ package com.example.sqlitedemo
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.sqlitedemo.databinding.ItemRowBinding
 
@@ -22,6 +23,10 @@ class RVAdapter(private val activity: MainActivity):RecyclerView.Adapter<RVAdapt
         holder.binding.apply {
             val personData = "${person.pk} - ${person.name} - ${person.location}"
             tvPerson.text = personData
+            tvPerson.setOnClickListener {
+                activity.selectedPerson = person
+                Toast.makeText(activity, "${person.name}(${person.pk}) selected", Toast.LENGTH_LONG).show()
+            }
         }
     }
 
