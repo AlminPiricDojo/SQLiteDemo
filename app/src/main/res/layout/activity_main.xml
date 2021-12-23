@@ -35,6 +35,18 @@
         android:layout_height="wrap_content"
         android:text="Get Data" />
 
+    <Button
+        android:id="@+id/btUpdate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Update Data" />
+
+    <Button
+        android:id="@+id/btDelete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Delete Data" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvMain"
         android:layout_width="match_parent"

@@ -14,13 +14,13 @@ class DatabaseHelper(context: Context): SQLiteOpenHelper(context,"details.db", n
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, p1: Int, p2: Int) {
-        // This removes the table if a new version is detected
-        db!!.execSQL("DROP TABLE IF EXISTS students")
+        db!!.execSQL("DROP TABLE IF EXISTS students")  // This removes the table if a new version is detected
         onCreate(db)
     }
 
     fun saveData(name: String, location: String){
         val contentValues = ContentValues()
+        // There is no need to pass in the pk because it is automatically generated
         contentValues.put("Name", name)
         contentValues.put("Location", location)
         sqLiteDatabase.insert("students", null, contentValues)
@@ -43,5 +43,16 @@ class DatabaseHelper(context: Context): SQLiteOpenHelper(context,"details.db", n
             }
         }
         return people
+    }
+
+    fun updateData(person: Person){
+        val contentValues = ContentValues()
+        contentValues.put("Name", person.name)
+        contentValues.put("Location", person.location)
+        sqLiteDatabase.update("students", contentValues, "pk = ${person.pk}", null)
+    }
+
+    fun deleteData(person: Person){
+        sqLiteDatabase.delete("students", "pk = ${person.pk}", null)
     }
 }
