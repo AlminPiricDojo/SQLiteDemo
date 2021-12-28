@@ -1,3 +1,10 @@
 package com.example.sqlitedemo
 
-data class Person(val pk: Int, val name: String, val location: String)
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "students")
+data class Person(
+    @PrimaryKey(autoGenerate = true) val pk: Int,
+    val name: String,
+    val location: String)

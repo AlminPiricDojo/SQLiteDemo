@@ -33,7 +33,7 @@ class RVAdapter(private val activity: MainActivity):RecyclerView.Adapter<RVAdapt
 
     override fun getItemCount() = people.size
 
-    fun update(people: ArrayList<Person>){
+    fun update(people: List<Person>){
         this.people = people
         notifyDataSetChanged()
     }

@@ -6,16 +6,18 @@ import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
-class DatabaseHelper(context: Context): SQLiteOpenHelper(context,"details.db", null, 2) {
+class DatabaseHelper(context: Context): SQLiteOpenHelper(context,"details.db", null, 1) {
     private val sqLiteDatabase: SQLiteDatabase = writableDatabase
 
     override fun onCreate(db: SQLiteDatabase?) {
-        db?.execSQL("create table students (pk INTEGER PRIMARY KEY AUTOINCREMENT, Name text, Location text)")
+        if(db != null){
+            db.execSQL("create table students (pk INTEGER PRIMARY KEY AUTOINCREMENT, Name text, Location text)")
+        }
     }
 
-    override fun onUpgrade(db: SQLiteDatabase?, p1: Int, p2: Int) {
-        db!!.execSQL("DROP TABLE IF EXISTS students")  // This removes the table if a new version is detected
-        onCreate(db)
+    override fun onUpgrade(p0: SQLiteDatabase?, p1: Int, p2: Int) {
+        sqLiteDatabase!!.execSQL("DROP TABLE IF EXISTS students")  // This removes the table if a new version is detected
+        onCreate(sqLiteDatabase)
     }
 
     fun saveData(name: String, location: String){
@@ -45,11 +47,11 @@ class DatabaseHelper(context: Context): SQLiteOpenHelper(context,"details.db", n
         return people
     }
 
-    fun updateData(person: Person){
+    fun updateData(personPk: Int, name: String, location: String){
         val contentValues = ContentValues()
-        contentValues.put("Name", person.name)
-        contentValues.put("Location", person.location)
-        sqLiteDatabase.update("students", contentValues, "pk = ${person.pk}", null)
+        contentValues.put("Name", name)
+        contentValues.put("Location", location)
+        sqLiteDatabase.update("students", contentValues, "pk = $personPk", null)
     }
 
     fun deleteData(person: Person){
