@@ -46,6 +46,10 @@ class MainActivity : AppCompatActivity() {
             val location = etLocation.text.toString()
             CoroutineScope(IO).launch {
                 personDao.addPerson(Person(0, name, location))
+//                val success = personDao.addPerson(Person(0, name, location))
+//                if(success > 0){
+//                    println("$success Added successfully")
+//                }
             }
             Toast.makeText(this, "Added successfully", Toast.LENGTH_LONG).show()
         }
@@ -72,6 +76,7 @@ class MainActivity : AppCompatActivity() {
                     val name = etName.text.toString()
                     val location = etLocation.text.toString()
                     personDao.updatePerson(Person(selectedPerson!!.pk, name, location))
+                    selectedPerson = null
                 }
                 Toast.makeText(this, "Updated successfully", Toast.LENGTH_LONG).show()
             }
@@ -81,6 +86,7 @@ class MainActivity : AppCompatActivity() {
             if(selectedPerson != null){
                 CoroutineScope(IO).launch {
                     personDao.deletePerson(selectedPerson!!)
+                    selectedPerson = null
                 }
                 Toast.makeText(this, "Deleted", Toast.LENGTH_LONG).show()
             }

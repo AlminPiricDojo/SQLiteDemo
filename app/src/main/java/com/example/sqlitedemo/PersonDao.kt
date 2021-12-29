@@ -6,6 +6,7 @@ import androidx.room.*
 interface PersonDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun addPerson(person: Person)
+//    suspend fun addPerson(person: Person):Long
 
     @Query("SELECT * FROM students ORDER BY pk ASC")
     fun getPeople(): List<Person>
